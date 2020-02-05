@@ -10,7 +10,12 @@ Homepage
 
         <h1>Rango says...</h1>
             <div>
-                hey there partner! <br />
+            {% if user.is_authenticated %}
+                howdy {{ user.username }}!
+            {% else %}
+                hey there partner!
+            {% endif %}
+                <br />
                 <strong>{{ boldmessage }}</strong><br />
             </div>
             
@@ -43,7 +48,6 @@ Homepage
             </div>
             
             <div>
-                <a href="{% url 'rango:add_category' %}">Add a New Category</a><br />
                 <img src="{% static 'images/rango.jpg' %}"
                      alt="Picture of Rango" />
     

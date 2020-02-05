@@ -1,5 +1,6 @@
 from django import forms
-from rango.models import Page, Category
+from rango.models import Page, Category, UserProfile
+from django.contrib.auth.models import User
 
 class CategoryForm(forms.ModelForm):
     name = forms.CharField(max_length = Category.MAX_LENGTH_NAME, help_text = "Please enter the category name.")
@@ -12,6 +13,7 @@ class CategoryForm(forms.ModelForm):
         # Provide an association between the ModelForm and a model
         model = Category
         fields = ("name",)
+
        
 class PageForm(forms.ModelForm):
     title = forms.CharField(max_length = Page.MAX_LENGTH_TITLE, help_text = "Please enter the title of the page.")
@@ -43,3 +45,17 @@ class PageForm(forms.ModelForm):
         
         # Must return reference, otherwise changes will not apply
         return cleaned_data
+    
+
+class UserForm(forms.ModelForm):
+    password = forms.CharField(widget = forms.PasswordInput())
+    
+    class Meta:
+        model = User
+        fields = ("username", "email", "password", )
+
+
+class UserProfileForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ("website", "picture", )
