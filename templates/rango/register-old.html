@@ -6,7 +6,18 @@
 {% endblock %}
 
 {% block body_block %}
-<h1>Register for Rango</h1>
+
+        <div class="jumbotron p-4">
+            <div class="container">
+                <h1 class="jumbotron-heading">Register for Rango</h1>
+                <div>
+                    <h2 class="h2">
+                    hey hey hey
+                    </h2>
+                </div>
+            </div>
+        </div>
+
 {% if registered %}
 Rango says: <strong>thank you for registering!</strong>
 <a href="{% url 'rango:index' %}">Return to the homepage.</a></br>
@@ -22,4 +33,5 @@ Rango says: <strong>register here!</strong></br>
     <input type="submit" name="submit" value="Register" />
 </form>
 {% endif %}
+
 {% endblock %}

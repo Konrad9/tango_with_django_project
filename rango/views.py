@@ -1,7 +1,7 @@
 from django.shortcuts import render
 #from django.http import HttpResponse
 from rango.models import Category, Page
-#from rango.forms import CategoryForm, PageForm, UserProfileForm, UserForm
+from rango.forms import CategoryForm, PageForm#, UserProfileForm, UserForm
 from django.shortcuts import redirect
 from django.urls import reverse
 #from django.contrib.auth import authenticate, login, logout
