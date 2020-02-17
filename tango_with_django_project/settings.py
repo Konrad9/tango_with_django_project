@@ -141,8 +141,8 @@ SESSION_COOKIE_AGE = 3600
 
 # django-registration-redux variables
 
-# If True, usrs can regoster
-REGISTRATION_OPNE = True
+# If True, users can register
+REGISTRATION_OPEN = True
 
 # If True, the user will be automatically logged in after registration
 REGISTRATION_AUTO_LOGIN = True
