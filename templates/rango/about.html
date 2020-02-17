@@ -7,21 +7,32 @@ About Rango
 
 {% block body_block %}
 
-        <div class="jumbotron p-4">
-            <div class="container">
-                <h1 class="jumbotron-heading">Rango says...</h1>
-                <div>
-                    <h2 class="h2">
-                    here is the about page.
-                    </h2>
-                </div>
-            </div>
+<div class="jumbotron p-4">
+    <div class="container">
+        <h1 class="jumbotron-heading">Rango says...</h1>
+        <div>
+            <h2 class="h2">
+            here is the about page.
+            </h2>
         </div>
+    </div>
+</div>
 
-            <div>
-                <strong>{{ boldmessage }}</strong>
-                <p>Visits: {{ visits }}</p>
-                <img src="{% static 'images/rango.jpg' %}" alt="Picture of Rango" />
-                <img src="{{ MEDIA_URL }}cat.jpg" alt="Picture of a Cat." />
-            </div>
+<div>
+    <strong>{{ boldmessage }}</strong>
+    <p>Visits: {{ visits }}</p>
+    <img src="{% static 'images/rango.jpg' %}" alt="Picture of Rango" />
+    <img src="{{ MEDIA_URL }}cat.jpg" alt="Picture of a Cat." />
+</div>
+<br />
+<button class="btn btn-primary"
+        onclick="alert('You clicked the button using inline JavaScript!');">
+        Click me - I run on vanilla JavaScript!
+</button>
+<button class="btn btn-primary" id="about-btn">
+        Click me - I am using JQuery!
+</button>
+<p>This is some text for the JQuery example.</p>
+<p>This is another example.</p>
+<div id="msg">Hello! I'm a further example for JQuery testing.</div>
 {% endblock %}
