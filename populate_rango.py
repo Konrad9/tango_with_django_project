@@ -44,7 +44,14 @@ def populate():
     
     cats = {'Python': {'pages': python_pages, "views": 128, "likes": 64},
     'Django': {'pages': django_pages, "views": 64, "likes": 32},
-    'Other Frameworks': {'pages': other_pages, "views": 32, "likes": 16} }
+    'Other Frameworks': {'pages': other_pages, "views": 32, "likes": 16},
+    "Pascal": {"pages":[], "views": 12, "likes": 2},
+    "Perl": {"pages":[], "views": 25, "likes": 1},
+    "PHP": {"pages":[], "views": 91, "likes": 9},
+    "Prolog": {"pages":[], "views": 0, "likes": 3},
+    "PostScript": {"pages":[], "views": 66, "likes": 7},
+    "Programming": {"pages":[], "views": 17, "likes":13},
+    }
     
     # If you want to add more categories or pages,
     # add them to the dictionaries above.

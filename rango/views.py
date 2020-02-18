@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-#from django.http import HttpResponse
+from django.http import HttpResponse
 from rango.models import Category, Page, UserProfile
 from rango.forms import CategoryForm, PageForm, UserProfileForm, UserForm
 from django.urls import reverse
@@ -63,7 +63,7 @@ class IndexView(View):
     
 
 class ShowCategoryView(View):
-    def populate_dictionary(category_name_slug):
+    def populate_dictionary(self, category_name_slug):
         context_dict = {}
         try:
             # Can we find a category name slug with the given name?
@@ -233,6 +233,58 @@ class ListProfilesView(View):
         return render(request, "rango/list_profiles.html", {"user_profile_list":profiles})
 
 
+class LikeCategoryView(View):
+    @method_decorator(login_required)
+    def get(self, request):
+        category_id = request.GET.get("category_id")
+        
+        try:
+            category = Category.objects.get(id=int(category_id))
+        except Category.DoesNotExist:
+            return HttpResponse(-1)
+        except ValueError:
+            return HttpResponse(-1)
+        
+        category.likes += 1
+        category.save()
+        
+        return HttpResponse(category.likes)
+
+
+class CategorySuggestionView(View):
+    def get(self, request):
+        if "suggestion" in request.GET:
+            suggestion = request.GET.get("suggestion")
+        else:
+            suggestion = ""
+            
+        category_list=  get_category_list(max_results=8, starts_with=suggestion)
+        
+        if len(category_list)==0:
+            category_list = Category.objects.order_by("-likes")
+        
+        return render(request, "rango/categories.html", {"categories":category_list})
+    
+    
+class SearchAddPageView(View):
+    @method_decorator(login_required)
+    def get(self, request):
+        title = request.GET.get("title")
+        url = request.GET.get("url")
+        category_id = request.GET.get("category_id")
+        
+        try:
+            category = Category.objects.get(id=int(category_id))
+        except Category.DoesNotExist:
+            return HttpResponse("Error - category not found.")
+        except ValueError:
+            return HttpResponse("Error - bad category ID.")
+        
+        p = Page.objects.get_or_create(category = category, title = title, url = url)
+        pages = Page.objects.filter(category = category).order_by("-views")
+        return render(request, "rango/page_listing.html", {"pages": pages})
+    
+    
 '''
 def register(request):
     # A boolean telling the template whether the registration was succesful, 
@@ -392,12 +444,29 @@ def search(request):
 """
 
 def goto_url(request):
-    try:
-        if request.method == "GET":
-            page_id = request.GET.get("page_id")
+    if request.method == "GET":
+        page_id = request.GET.get("page_id")
+        
+        try:
             page = Page.objects.get(id = page_id)
-            page.views += 1
-            page.save()
-            return redirect(page.url)
-    finally:
-        return redirect(reverse("rango:index"))
+        except Page.DoesNotExist:
+            return redirect(reverse("rango:index"))
+        
+        page.views += 1
+        page.save()
+        return redirect(page.url)
+    
+    return redirect(reverse("rango:index"))
+    
+    
+def get_category_list(max_results=0, starts_with=""):
+    category_list = []
+    
+    if starts_with:
+        category_list = Category.objects.filter(name__istartswith=starts_with)
+        
+    if max_results>0:
+        if len(category_list) > max_results:
+            category_list = category_list[:max_results]
+            
+    return category_list
